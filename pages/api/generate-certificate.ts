@@ -37,7 +37,7 @@ export default async function handler(
 
     // Add STEM logo
     try {
-      const logoPath = path.join(process.cwd(), "pages", "api", "stem.jpeg");
+      const logoPath = path.join(process.cwd(), "pages", "api", "stem-resized.png");
       const logoBuffer = fs.readFileSync(logoPath);
       const logoBase64 = logoBuffer.toString("base64");
       const logoDataUri = `data:image/jpeg;base64,${logoBase64}`;
@@ -45,7 +45,7 @@ export default async function handler(
       // Add logo to top center
       doc.addImage(
         logoDataUri,
-        "JPEG",
+        "PNG",
         doc.internal.pageSize.width / 2 - 150,
         30,
         300,
@@ -137,7 +137,7 @@ export default async function handler(
 
     // Add Dean Signature
     try {
-      const logoPath = path.join(process.cwd(), "pages", "api", "ttd.png");
+      const logoPath = path.join(process.cwd(), "pages", "api", "ttd-resized.png");
       const logoBuffer = fs.readFileSync(logoPath);
       const logoBase64 = logoBuffer.toString("base64");
       const logoDataUri = `data:image/jpeg;base64,${logoBase64}`;
