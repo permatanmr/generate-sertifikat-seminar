@@ -1,10 +1,9 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import { useState, useEffect } from "react";
-import { useRouter } from "next/router";
-import QRCode from "qrcode";
 import styles from "../../styles/Home.module.css";
 import GoogleLogo from "./google-logo";
+import { useRouter } from "next/router";
 
 interface Submission {
   _id: string;
@@ -17,19 +16,19 @@ interface Submission {
   submitted_at: string;
   ip_address?: string;
 }
-
-const WorkshopDetail: NextPage = () => {
+const Workshop: NextPage = () => {
+  const [user, setUser] = useState<any>({ name: "Permata" });
+  const [loading, setLoading] = useState(true);
+  const [workshop, setSubmission] = useState<Submission | null>(null);
   const router = useRouter();
   const { id } = router.query;
-  const [user, setUser] = useState<any>(null);
-  const [workshop, setSubmission] = useState<Submission | null>(null);
-  const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
   useEffect(() => {
     if (id) {
       fetchSubmission();
     }
+    checkAuthStatus();
   }, [id]);
 
   const fetchSubmission = async () => {
@@ -37,6 +36,7 @@ const WorkshopDetail: NextPage = () => {
       const response = await fetch(`/api/get-submission/${id}`);
       if (response.ok) {
         const data = await response.json();
+        console.log("Fetched submission data:", data);
         setSubmission(data.submission);
       } else {
         setError("Submission not found");
@@ -47,6 +47,28 @@ const WorkshopDetail: NextPage = () => {
     } finally {
       setLoading(false);
     }
+  };
+  const checkAuthStatus = async () => {
+    try {
+      const response = await fetch("/api/auth/status");
+      if (response.ok) {
+        const userData = await response.json();
+        setUser(userData);
+      }
+    } catch (error) {
+      console.error("Auth check failed:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleLogin = () => {
+    window.location.href = "/api/auth/login";
+  };
+
+  const handleLogout = async () => {
+    await fetch("/api/auth/logout", { method: "POST" });
+    setUser(null);
   };
 
   if (loading) {
@@ -59,24 +81,10 @@ const WorkshopDetail: NextPage = () => {
     );
   }
 
-  if (error || !workshop) {
-    return (
-      <div className={styles.container}>
-        <main className={styles.main}>
-          <h1 className={styles.title}>Error</h1>
-          <p>{error}</p>
-        </main>
-      </div>
-    );
-  }
-  const handleLogin = () => {
-    window.location.href = "/api/auth/login";
-  };
-
   return (
     <div className={styles.container}>
       <Head>
-        <title>Sertifikat STEM</title>
+        <title>Certificate Generator</title>
         <meta
           name='description'
           content='Generate certificates of participation'
@@ -85,26 +93,22 @@ const WorkshopDetail: NextPage = () => {
       </Head>
 
       <main className={styles.main}>
-        <h1 className={styles.title}>Dapatkan E-Sertifikat</h1>
-
         {!user ? (
           <div>
             <p className={styles.description}>
               Please login with your Google account to generate certificates
             </p>
-            <div className={styles.description}>
-              <button onClick={handleLogin} className={styles.loginButton}>
-                <GoogleLogo />
-                Login with Google
-              </button>
-            </div>
+            <button onClick={handleLogin} className={styles.loginButton}>
+              <GoogleLogo />
+              Login with Google
+            </button>
           </div>
         ) : (
-          <div>
-            <p className={styles.description}>
-              Welcome, {user.name}! Generate your certificate below.
+          <div className={styles.description}>
+            <p>
+              Hi, {user.name}! <br></br>Dapatkan E-Sertifikat berikut
             </p>
-            <CertificateForm userEmail={user.email} />
+            <CertificateForm workshop={workshop} />
           </div>
         )}
       </main>
@@ -112,18 +116,26 @@ const WorkshopDetail: NextPage = () => {
   );
 };
 
-const CertificateForm = ({ userEmail }: { userEmail: string }) => {
+const CertificateForm = ({ workshop }: { workshop: any }) => {
   const [personName, setPersonName] = useState("");
-  const [workshopName, setWorkshopName] = useState("");
+  const [workshopName, setWorkshopName] = useState(
+    workshop ? workshop.workshop_title : ""
+  );
+  const [namaInstansi, setnamaInstansi] = useState("");
   const [generating, setGenerating] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!personName.trim() || !workshopName.trim()) {
+    if (!personName.trim() || !namaInstansi.trim()) {
       alert("Please fill in both fields");
       return;
     }
 
+    console.log("AAAAAAA-Generating certificate for:", {
+      personName: personName.trim(),
+      workshopName: workshopName,
+      namaInstansi: namaInstansi.trim(),
+    });
     setGenerating(true);
     try {
       const response = await fetch("/api/generate-certificate", {
@@ -133,9 +145,11 @@ const CertificateForm = ({ userEmail }: { userEmail: string }) => {
         },
         body: JSON.stringify({
           personName: personName.trim(),
-          workshopName: workshopName.trim(),
+          workshopName: workshopName,
+          namaInstansi: namaInstansi.trim(),
         }),
       });
+      console.log(response);
 
       if (response.ok) {
         const blob = await response.blob();
@@ -159,39 +173,40 @@ const CertificateForm = ({ userEmail }: { userEmail: string }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className={styles.form}>
-      <div className={styles.formGroup}>
-        <label htmlFor='personName'>Person Name:</label>
-        <input
-          type='text'
-          id='personName'
-          value={personName}
-          onChange={(e) => setPersonName(e.target.value)}
-          placeholder='Enter participant name'
-          required
-        />
-      </div>
+    <div>
+      Workshop: {workshopName}
+      <form onSubmit={handleSubmit} className={styles.form}>
+        <div className={styles.formGroup}>
+          <input
+            type='text'
+            id='personName'
+            value={personName}
+            onChange={(e) => setPersonName(e.target.value)}
+            placeholder='Tulis nama lengkap Anda'
+            required
+          />
+        </div>
 
-      <div className={styles.formGroup}>
-        <label htmlFor='workshopName'>Workshop Name:</label>
-        <input
-          type='text'
-          id='workshopName'
-          value={workshopName}
-          onChange={(e) => setWorkshopName(e.target.value)}
-          placeholder='Enter workshop name'
-          required
-        />
-      </div>
+        <div className={styles.formGroup}>
+          <input
+            type='text'
+            id='schoolName'
+            value={namaInstansi}
+            onChange={(e) => setnamaInstansi(e.target.value)}
+            placeholder='Tulis nama sekolah'
+            required
+          />
+        </div>
 
-      <button
-        type='submit'
-        disabled={generating}
-        className={styles.generateButton}>
-        {generating ? "Generating..." : "Generate Certificate"}
-      </button>
-    </form>
+        <button
+          type='submit'
+          disabled={generating}
+          className={styles.generateButton}>
+          {generating ? "Generating..." : "Generate Certificate"}
+        </button>
+      </form>
+    </div>
   );
 };
 
-export default WorkshopDetail;
+export default Workshop;

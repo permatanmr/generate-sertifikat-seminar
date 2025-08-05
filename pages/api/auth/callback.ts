@@ -44,7 +44,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       name: payload.name,
       picture: payload.picture,
     };
-    console.log('User Info:', userInfo); // Debug log
 
     // Create a JWT token for session management
     const sessionToken = jwt.sign(
