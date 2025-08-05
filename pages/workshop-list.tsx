@@ -281,18 +281,9 @@ const SubmissionsList: NextPage = () => {
 
         <div style={{ marginTop: "20px" }}>
           <a
-            href='/'
-            style={{
-              color: "#0070f3",
-              textDecoration: "none",
-              marginRight: "20px",
-            }}>
-            ← Back to Home
-          </a>
-          <a
-            href='/submission'
+            href='/workshop-create'
             style={{ color: "#0070f3", textDecoration: "none" }}>
-            Add New Submission
+            Add New Workshop
           </a>
         </div>
 
