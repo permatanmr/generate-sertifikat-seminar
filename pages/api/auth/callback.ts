@@ -7,7 +7,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   // For Replit, ensure we always use https and the correct host
   const host = req.headers.host;
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || `https://${host}`;
-  const redirectUri = `${baseUrl}/api/auth/callback`;
+  const redirectUri = `${baseUrl}/api/auth/callback/`;
   
   console.log('Callback redirect URI:', redirectUri); // Debug log
 
@@ -21,7 +21,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   if (!code) {
     return res.status(400).json({ error: 'No authorization code provided' });
   }
-
+ // Debug log
   try {
     const { tokens } = await client.getToken(code as string);
     client.setCredentials(tokens);
@@ -37,12 +37,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       return res.status(400).json({ error: 'Invalid token payload' });
     }
 
+
     const userInfo = {
       id: payload.sub,
       email: payload.email,
       name: payload.name,
       picture: payload.picture,
     };
+    console.log('User Info:', userInfo); // Debug log
 
     // Create a JWT token for session management
     const sessionToken = jwt.sign(
