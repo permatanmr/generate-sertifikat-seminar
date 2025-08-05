@@ -2,12 +2,18 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import { useState, useEffect } from "react";
 import styles from "../styles/Home.module.css";
+import { useRouter } from "next/router";
 
 const Home: NextPage = () => {
   const [user, setUser] = useState<any>({ name: "Permata" });
   const [loading, setLoading] = useState(true);
+  const router = useRouter();
 
   useEffect(() => {
+    const storedId = localStorage.getItem("workshopId");
+    if (storedId) {
+      router.push(`/workshop/${storedId}`);
+    }
     checkAuthStatus();
   }, []);
 

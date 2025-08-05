@@ -27,6 +27,7 @@ const Workshop: NextPage = () => {
   useEffect(() => {
     if (id) {
       fetchSubmission();
+      localStorage.setItem("workshopId", id as string);
     }
     checkAuthStatus();
   }, [id]);
@@ -67,6 +68,7 @@ const Workshop: NextPage = () => {
   };
 
   const handleLogout = async () => {
+    localStorage.removeItem("workshopId");
     await fetch("/api/auth/logout", { method: "POST" });
     setUser(null);
   };
