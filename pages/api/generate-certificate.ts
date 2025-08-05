@@ -23,7 +23,7 @@ export default async function handler(
     return res.status(401).json({ error: "Invalid session" });
   }
 
-  const { personName, workshopName } = req.body;
+  const { personName, workshopName, namaInstansi } = req.body;
 
   if (!personName || !workshopName) {
     return res
@@ -46,10 +46,10 @@ export default async function handler(
       doc.addImage(
         logoDataUri,
         "PNG",
-        doc.internal.pageSize.width / 2 - 150,
+        doc.internal.pageSize.width / 2 - 110,
         90,
-        250,
-        70,
+        220,
+        60,
       );
     } catch (logoError) {
       console.error("Failed to load STEM logo:", logoError);
@@ -76,26 +76,33 @@ export default async function handler(
     );
 
     // Title
-    doc.setFontSize(36);
+    doc.setFontSize(32);
     doc.setTextColor(150, 0, 0);
     doc.text(
       "CERTIFICATE OF PARTICIPATION",
       doc.internal.pageSize.width / 2,
-      220,
+      190,
       { align: "center" },
     );
 
     // Subtitle
     doc.setFontSize(18);
     doc.setTextColor(100, 100, 100);
-    doc.text("This is to certify that", doc.internal.pageSize.width / 2, 250, {
+    doc.text("This is to certify that", doc.internal.pageSize.width / 2, 220, {
       align: "center",
     });
 
     // Participant name
-    doc.setFontSize(32);
+    doc.setFontSize(30);
     doc.setTextColor(150, 0, 0);
-    doc.text(personName, doc.internal.pageSize.width / 2, 300, {
+    doc.text(personName, doc.internal.pageSize.width / 2, 260, {
+      align: "center",
+    });
+
+    // Instansi name
+    doc.setFontSize(20);
+    doc.setTextColor(150, 0, 0);
+    doc.text(`(${namaInstansi})`, doc.internal.pageSize.width / 2, 290, {
       align: "center",
     });
 
@@ -105,7 +112,7 @@ export default async function handler(
     doc.text(
       "has successfully participated in",
       doc.internal.pageSize.width / 2,
-      330,
+      340,
       { align: "center" },
     );
 

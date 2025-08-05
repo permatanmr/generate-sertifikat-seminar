@@ -56,8 +56,6 @@ const Home: NextPage = () => {
       </Head>
 
       <main className={styles.main}>
-        <h1 className={styles.title}>Certificate Generator</h1>
-
         {!user ? (
           <div>
             <p className={styles.description}>
@@ -68,31 +66,10 @@ const Home: NextPage = () => {
             </button>
           </div>
         ) : (
-          <div>
-            <p className={styles.description}>
-              Welcome, {user.name}! Generate your certificate below.
+          <div className={styles.description}>
+            <p>
+              Hello, {user.name}! <br></br>Dapatkan E-Sertifikat berikut
             </p>
-            <div style={{ marginBottom: "20px" }}>
-              <button onClick={handleLogout} className={styles.logoutButton}>
-                Logout
-              </button>
-              <a
-                href='/submission'
-                className={styles.loginButton}
-                style={{
-                  textDecoration: "none",
-                  display: "inline-block",
-                  marginRight: "10px",
-                }}>
-                Workshop Submission Form
-              </a>
-              <a
-                href='/submissions-list'
-                className={styles.loginButton}
-                style={{ textDecoration: "none", display: "inline-block" }}>
-                View All Submissions
-              </a>
-            </div>
             <CertificateForm userEmail={user.email} />
           </div>
         )}
@@ -104,6 +81,7 @@ const Home: NextPage = () => {
 const CertificateForm = ({ userEmail }: { userEmail: string }) => {
   const [personName, setPersonName] = useState("");
   const [workshopName, setWorkshopName] = useState("");
+  const [namaInstansi, setnamaInstansi] = useState("");
   const [generating, setGenerating] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -123,6 +101,7 @@ const CertificateForm = ({ userEmail }: { userEmail: string }) => {
         body: JSON.stringify({
           personName: personName.trim(),
           workshopName: workshopName.trim(),
+          namaInstansi: namaInstansi.trim(),
         }),
       });
       console.log(response);
@@ -169,6 +148,17 @@ const CertificateForm = ({ userEmail }: { userEmail: string }) => {
           id='workshopName'
           value={workshopName}
           onChange={(e) => setWorkshopName(e.target.value)}
+          placeholder='Enter workshop name'
+          required
+        />
+      </div>
+      <div className={styles.formGroup}>
+        <label htmlFor='workshopName'>Nama Sekolah:</label>
+        <input
+          type='text'
+          id='workshopName'
+          value={namaInstansi}
+          onChange={(e) => setnamaInstansi(e.target.value)}
           placeholder='Enter workshop name'
           required
         />
