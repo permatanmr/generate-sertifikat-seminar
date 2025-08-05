@@ -106,7 +106,8 @@ const Workshop: NextPage = () => {
         ) : (
           <div className={styles.description}>
             <p>
-              Hi, {user.name}! <br></br>Dapatkan E-Sertifikat berikut
+              Hi, {user.name}! <br></br>
+              Dapatkan <b>E-Sertifikat</b> {workshop && workshop.workshop_title}
             </p>
             <CertificateForm workshop={workshop} />
           </div>
@@ -118,24 +119,16 @@ const Workshop: NextPage = () => {
 
 const CertificateForm = ({ workshop }: { workshop: any }) => {
   const [personName, setPersonName] = useState("");
-  const [workshopName, setWorkshopName] = useState(
-    workshop ? workshop.workshop_title : ""
-  );
   const [namaInstansi, setnamaInstansi] = useState("");
   const [generating, setGenerating] = useState(false);
 
+  console.log("Workshop data:", workshop);
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!personName.trim() || !namaInstansi.trim()) {
       alert("Please fill in both fields");
       return;
     }
-
-    console.log("AAAAAAA-Generating certificate for:", {
-      personName: personName.trim(),
-      workshopName: workshopName,
-      namaInstansi: namaInstansi.trim(),
-    });
     setGenerating(true);
     try {
       const response = await fetch("/api/generate-certificate", {
@@ -145,11 +138,10 @@ const CertificateForm = ({ workshop }: { workshop: any }) => {
         },
         body: JSON.stringify({
           personName: personName.trim(),
-          workshopName: workshopName,
+          workshopName: workshop.workshop_title,
           namaInstansi: namaInstansi.trim(),
         }),
       });
-      console.log(response);
 
       if (response.ok) {
         const blob = await response.blob();
@@ -174,7 +166,6 @@ const CertificateForm = ({ workshop }: { workshop: any }) => {
 
   return (
     <div>
-      Workshop: {workshopName}
       <form onSubmit={handleSubmit} className={styles.form}>
         <div className={styles.formGroup}>
           <input
