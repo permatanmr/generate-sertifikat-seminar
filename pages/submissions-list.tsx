@@ -1,4 +1,3 @@
-
 import type { NextPage } from "next";
 import Head from "next/head";
 import { useState, useEffect } from "react";
@@ -21,7 +20,10 @@ const SubmissionsList: NextPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [qrCodes, setQrCodes] = useState<Record<string, string>>({});
-  const [previewQR, setPreviewQR] = useState<{url: string, name: string} | null>(null);
+  const [previewQR, setPreviewQR] = useState<{
+    url: string;
+    name: string;
+  } | null>(null);
 
   useEffect(() => {
     fetchSubmissions();
@@ -47,7 +49,7 @@ const SubmissionsList: NextPage = () => {
 
   const generateQRCodes = async (submissionsList: Submission[]) => {
     const qrCodeMap: Record<string, string> = {};
-    
+
     for (const submission of submissionsList) {
       try {
         const url = `${window.location.origin}/submission-detail/${submission._id}`;
@@ -60,7 +62,7 @@ const SubmissionsList: NextPage = () => {
         console.error(`Error generating QR code for ${submission._id}:`, error);
       }
     }
-    
+
     setQrCodes(qrCodeMap);
   };
 
@@ -73,10 +75,10 @@ const SubmissionsList: NextPage = () => {
       });
       setPreviewQR({
         url: qrDataUrl,
-        name: submission.name
+        name: submission.name,
       });
     } catch (error) {
-      console.error('Error generating preview QR code:', error);
+      console.error("Error generating preview QR code:", error);
     }
   };
 
@@ -98,13 +100,13 @@ const SubmissionsList: NextPage = () => {
     <div className={styles.container}>
       <Head>
         <title>Workshop Submissions List</title>
-        <meta name="description" content="List of all workshop submissions" />
-        <link rel="icon" href="/favicon.ico" />
+        <meta name='description' content='List of all workshop submissions' />
+        <link rel='icon' href='/favicon.ico' />
       </Head>
 
       <main className={styles.main}>
         <h1 className={styles.title}>Workshop Submissions</h1>
-        
+
         {error && (
           <div
             style={{
@@ -114,8 +116,7 @@ const SubmissionsList: NextPage = () => {
               backgroundColor: "#f8d7da",
               color: "#721c24",
               border: "1px solid #f5c6cb",
-            }}
-          >
+            }}>
             {error}
           </div>
         )}
@@ -129,32 +130,71 @@ const SubmissionsList: NextPage = () => {
                 width: "100%",
                 borderCollapse: "collapse",
                 marginBottom: "20px",
-              }}
-            >
+              }}>
               <thead>
                 <tr style={{ backgroundColor: "#f8f9fa" }}>
-                  <th style={{ padding: "12px", border: "1px solid #ddd", textAlign: "left" }}>
+                  <th
+                    style={{
+                      padding: "12px",
+                      border: "1px solid #ddd",
+                      textAlign: "left",
+                    }}>
                     Name
                   </th>
-                  <th style={{ padding: "12px", border: "1px solid #ddd", textAlign: "left" }}>
+                  <th
+                    style={{
+                      padding: "12px",
+                      border: "1px solid #ddd",
+                      textAlign: "left",
+                    }}>
                     Employee Number
                   </th>
-                  <th style={{ padding: "12px", border: "1px solid #ddd", textAlign: "left" }}>
+                  <th
+                    style={{
+                      padding: "12px",
+                      border: "1px solid #ddd",
+                      textAlign: "left",
+                    }}>
                     Workshop Title
                   </th>
-                  <th style={{ padding: "12px", border: "1px solid #ddd", textAlign: "left" }}>
+                  <th
+                    style={{
+                      padding: "12px",
+                      border: "1px solid #ddd",
+                      textAlign: "left",
+                    }}>
                     Date
                   </th>
-                  <th style={{ padding: "12px", border: "1px solid #ddd", textAlign: "left" }}>
+                  <th
+                    style={{
+                      padding: "12px",
+                      border: "1px solid #ddd",
+                      textAlign: "left",
+                    }}>
                     Funnel Type
                   </th>
-                  <th style={{ padding: "12px", border: "1px solid #ddd", textAlign: "left" }}>
+                  <th
+                    style={{
+                      padding: "12px",
+                      border: "1px solid #ddd",
+                      textAlign: "left",
+                    }}>
                     Submitted At
                   </th>
-                  <th style={{ padding: "12px", border: "1px solid #ddd", textAlign: "left" }}>
+                  <th
+                    style={{
+                      padding: "12px",
+                      border: "1px solid #ddd",
+                      textAlign: "left",
+                    }}>
                     QR Code
                   </th>
-                  <th style={{ padding: "12px", border: "1px solid #ddd", textAlign: "left" }}>
+                  <th
+                    style={{
+                      padding: "12px",
+                      border: "1px solid #ddd",
+                      textAlign: "left",
+                    }}>
                     Actions
                   </th>
                 </tr>
@@ -175,30 +215,39 @@ const SubmissionsList: NextPage = () => {
                       {new Date(submission.date).toLocaleDateString()}
                     </td>
                     <td style={{ padding: "12px", border: "1px solid #ddd" }}>
-                      <span className={`px-2 py-1 rounded text-sm ${
-                        submission.funnel_type === 'Awareness' ? 'bg-blue-100 text-blue-800' :
-                        submission.funnel_type === 'Engagement' ? 'bg-green-100 text-green-800' :
-                        submission.funnel_type === 'Conversion' ? 'bg-purple-100 text-purple-800' :
-                        'bg-gray-100 text-gray-800'
-                      }`}>
+                      <span
+                        className={`px-2 py-1 rounded text-sm ${
+                          submission.funnel_type === "Awareness"
+                            ? "bg-blue-100 text-blue-800"
+                            : submission.funnel_type === "Engagement"
+                            ? "bg-green-100 text-green-800"
+                            : submission.funnel_type === "Conversion"
+                            ? "bg-purple-100 text-purple-800"
+                            : "bg-gray-100 text-gray-800"
+                        }`}>
                         {submission.funnel_type}
                       </span>
                     </td>
                     <td style={{ padding: "12px", border: "1px solid #ddd" }}>
                       {new Date(submission.submitted_at).toLocaleDateString()}
                     </td>
-                    <td style={{ padding: "12px", border: "1px solid #ddd", textAlign: "center" }}>
+                    <td
+                      style={{
+                        padding: "12px",
+                        border: "1px solid #ddd",
+                        textAlign: "center",
+                      }}>
                       {qrCodes[submission._id] && (
-                        <img 
-                          src={qrCodes[submission._id]} 
+                        <img
+                          src={qrCodes[submission._id]}
                           alt={`QR code for ${submission.name}`}
-                          style={{ 
-                            maxWidth: "80px", 
-                            height: "auto", 
+                          style={{
+                            maxWidth: "120px",
+                            height: "auto",
                             cursor: "pointer",
                             transition: "transform 0.2s ease",
                           }}
-                          title="Click to preview larger QR code"
+                          title='Click to preview larger QR code'
                           onClick={() => handleQRClick(submission)}
                           onMouseOver={(e) => {
                             e.currentTarget.style.transform = "scale(1.1)";
@@ -219,8 +268,7 @@ const SubmissionsList: NextPage = () => {
                           backgroundColor: "#f0f8ff",
                           borderRadius: "4px",
                           border: "1px solid #0070f3",
-                        }}
-                      >
+                        }}>
                         View Details
                       </a>
                     </td>
@@ -232,14 +280,23 @@ const SubmissionsList: NextPage = () => {
         )}
 
         <div style={{ marginTop: "20px" }}>
-          <a href="/" style={{ color: "#0070f3", textDecoration: "none", marginRight: "20px" }}>
+          <a
+            href='/'
+            style={{
+              color: "#0070f3",
+              textDecoration: "none",
+              marginRight: "20px",
+            }}>
             ← Back to Home
           </a>
-          <a href="/submission" style={{ color: "#0070f3", textDecoration: "none" }}>
+          <a
+            href='/submission'
+            style={{ color: "#0070f3", textDecoration: "none" }}>
             Add New Submission
           </a>
         </div>
 
+        {/* QR Code Preview Modal */}
         {/* QR Code Preview Modal */}
         {previewQR && (
           <div
@@ -255,34 +312,44 @@ const SubmissionsList: NextPage = () => {
               alignItems: "center",
               zIndex: 1000,
             }}
-            onClick={closePreview}
-          >
+            onClick={closePreview}>
             <div
               style={{
                 backgroundColor: "white",
-                padding: "30px",
+                padding: "20px",
                 borderRadius: "12px",
                 textAlign: "center",
                 boxShadow: "0 10px 30px rgba(0, 0, 0, 0.3)",
-                maxWidth: "90vw",
+                width: "95%",
+                maxWidth: "600px",
+                margin: "10px",
                 maxHeight: "90vh",
+                overflow: "auto",
               }}
-              onClick={(e) => e.stopPropagation()}
-            >
+              onClick={(e) => e.stopPropagation()}>
               <h3 style={{ margin: "0 0 20px 0", color: "#333" }}>
                 QR Code for {previewQR.name}
               </h3>
-              <img 
-                src={previewQR.url} 
-                alt={`QR code preview for ${previewQR.name}`}
-                style={{ 
-                  display: "block", 
-                  margin: "0 auto 20px auto",
-                  maxWidth: "100%",
-                  height: "auto"
-                }}
-              />
-              <p style={{ margin: "0 0 20px 0", fontSize: "14px", color: "#666" }}>
+              <div
+                style={{
+                  width: "100%",
+                  height: "auto",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}>
+                <img
+                  src={previewQR.url}
+                  alt={`QR code preview for ${previewQR.name}`}
+                  style={{
+                    width: "100%",
+                    maxWidth: "min(90vw, 90vh)",
+                    height: "auto",
+                    objectFit: "contain",
+                  }}
+                />
+              </div>
+              <p style={{ margin: "20px 0", fontSize: "14px", color: "#666" }}>
                 Scan this QR code to view the submission details
               </p>
               <button
@@ -301,8 +368,7 @@ const SubmissionsList: NextPage = () => {
                 }}
                 onMouseOut={(e) => {
                   e.currentTarget.style.backgroundColor = "#0070f3";
-                }}
-              >
+                }}>
                 Close
               </button>
             </div>
