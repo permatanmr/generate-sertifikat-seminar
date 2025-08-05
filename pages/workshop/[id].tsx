@@ -17,10 +17,7 @@ interface Submission {
   ip_address?: string;
 }
 const Workshop: NextPage = () => {
-  const [user, setUser] = useState<any>({
-    name: "Permata",
-    email: "permata.nmr@pmbs.ac.id",
-  });
+  const [user, setUser] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [workshop, setSubmission] = useState<Submission | null>(null);
   const router = useRouter();
@@ -97,9 +94,10 @@ const Workshop: NextPage = () => {
 
       <main className={styles.main}>
         {!user ? (
-          <div>
-            <p className={styles.description}>
-              Please login with your Google account to generate certificates
+          <div className={styles.description}>
+            <p>
+              Login kamu untuk mendapatkan E-Sertifikat{" "}
+              {workshop && workshop.workshop_title}
             </p>
             <button onClick={handleLogin} className={styles.loginButton}>
               <GoogleLogo />
