@@ -68,9 +68,9 @@ const Home: NextPage = () => {
         ) : (
           <div className={styles.description}>
             <p>
-              Hello, {user.name}! <br></br>Dapatkan E-Sertifikat berikut
+              Hello, {user.name}! <br></br>Scan QRCode yang diberikan instruktur
+              untuk mendapatkan E-Sertifikat berikut
             </p>
-            <CertificateForm userEmail={user.email} />
           </div>
         )}
       </main>
