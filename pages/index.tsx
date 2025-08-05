@@ -110,7 +110,7 @@ const CertificateForm = ({ userEmail }: { userEmail: string }) => {
           namaInstansi: namaInstansi.trim(),
         }),
       });
-      console.log(response);
+      // console.log(response);
 
       if (response.ok) {
         const blob = await response.blob();

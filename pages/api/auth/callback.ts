@@ -9,7 +9,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || `https://${host}`;
   const redirectUri = `${baseUrl}/api/auth/callback/`;
   
-  console.log('Callback redirect URI:', redirectUri); // Debug log
+  // console.log('Callback redirect URI:', redirectUri); // Debug log
 
   const client = new OAuth2Client(
     process.env.GOOGLE_CLIENT_ID,

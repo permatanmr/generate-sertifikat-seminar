@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import styles from "../../styles/Home.module.css";
 import GoogleLogo from "./google-logo";
 import { useRouter } from "next/router";
+import Image from "next/image";
 
 interface Submission {
   _id: string;
@@ -37,7 +38,7 @@ const Workshop: NextPage = () => {
       const response = await fetch(`/api/get-submission/${id}`);
       if (response.ok) {
         const data = await response.json();
-        console.log("Fetched submission data:", data);
+        // console.log("Fetched submission data:", data);
         setSubmission(data.submission);
       } else {
         setError("Submission not found");
@@ -97,10 +98,19 @@ const Workshop: NextPage = () => {
       <main className={styles.main}>
         {!user ? (
           <div className={styles.description}>
-            <p>
-              Login kamu untuk mendapatkan E-Sertifikat{" "}
-              {workshop && workshop.workshop_title}
+            <p className={styles.smalltext}>
+              Login untuk mendapatkan E-Sertifikat <br></br>
+              <b>{workshop && workshop.workshop_title}</b>
             </p>
+            <div className={styles.logoContainer}>
+              <Image
+                src='/sertifikat.png'
+                alt='sertifikat'
+                width={300}
+                height={200}
+                priority
+              />
+            </div>
             <button onClick={handleLogin} className={styles.loginButton}>
               <GoogleLogo />
               Login with Google

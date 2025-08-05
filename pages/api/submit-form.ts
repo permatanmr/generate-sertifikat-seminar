@@ -35,7 +35,7 @@ export default async function handler(
   try {
     // Connect to MongoDB
     client = new MongoClient(MONGODB_URI);
-    console.log(MONGODB_URI)
+    // console.log(MONGODB_URI)
     await client.connect();
 
     const db = client.db(DATABASE_NAME);

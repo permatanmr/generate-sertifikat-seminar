@@ -105,7 +105,8 @@ const SubmissionsList: NextPage = () => {
       </Head>
 
       <main className={styles.main}>
-        <h1 className={styles.title}>Workshop Submissions</h1>
+        <h3 className={styles.title}>Workshop STEM</h3>
+        <br></br>
 
         {error && (
           <div
@@ -139,7 +140,7 @@ const SubmissionsList: NextPage = () => {
                       border: "1px solid #ddd",
                       textAlign: "left",
                     }}>
-                    Name
+                    Date
                   </th>
                   <th
                     style={{
@@ -147,7 +148,7 @@ const SubmissionsList: NextPage = () => {
                       border: "1px solid #ddd",
                       textAlign: "left",
                     }}>
-                    Employee Number
+                    Nama Dosen
                   </th>
                   <th
                     style={{
@@ -157,14 +158,7 @@ const SubmissionsList: NextPage = () => {
                     }}>
                     Workshop Title
                   </th>
-                  <th
-                    style={{
-                      padding: "12px",
-                      border: "1px solid #ddd",
-                      textAlign: "left",
-                    }}>
-                    Date
-                  </th>
+
                   <th
                     style={{
                       padding: "12px",
@@ -172,14 +166,6 @@ const SubmissionsList: NextPage = () => {
                       textAlign: "left",
                     }}>
                     Funnel Type
-                  </th>
-                  <th
-                    style={{
-                      padding: "12px",
-                      border: "1px solid #ddd",
-                      textAlign: "left",
-                    }}>
-                    Submitted At
                   </th>
                   <th
                     style={{
@@ -203,16 +189,13 @@ const SubmissionsList: NextPage = () => {
                 {submissions.map((submission) => (
                   <tr key={submission._id}>
                     <td style={{ padding: "12px", border: "1px solid #ddd" }}>
+                      {new Date(submission.submitted_at).toLocaleDateString()}
+                    </td>
+                    <td style={{ padding: "12px", border: "1px solid #ddd" }}>
                       {submission.name}
                     </td>
                     <td style={{ padding: "12px", border: "1px solid #ddd" }}>
-                      {submission.employee_number}
-                    </td>
-                    <td style={{ padding: "12px", border: "1px solid #ddd" }}>
                       {submission.workshop_title}
-                    </td>
-                    <td style={{ padding: "12px", border: "1px solid #ddd" }}>
-                      {new Date(submission.date).toLocaleDateString()}
                     </td>
                     <td style={{ padding: "12px", border: "1px solid #ddd" }}>
                       <span
@@ -228,9 +211,7 @@ const SubmissionsList: NextPage = () => {
                         {submission.funnel_type}
                       </span>
                     </td>
-                    <td style={{ padding: "12px", border: "1px solid #ddd" }}>
-                      {new Date(submission.submitted_at).toLocaleDateString()}
-                    </td>
+
                     <td
                       style={{
                         padding: "12px",
@@ -269,7 +250,7 @@ const SubmissionsList: NextPage = () => {
                           borderRadius: "4px",
                           border: "1px solid #0070f3",
                         }}>
-                        View Details
+                        Details
                       </a>
                     </td>
                   </tr>
