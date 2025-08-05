@@ -1,11 +1,10 @@
-
 import type { NextPage } from "next";
 import Head from "next/head";
 import { useState, useEffect } from "react";
 import styles from "../styles/Home.module.css";
 
 const Home: NextPage = () => {
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<any>({ name: "Permata" });
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -14,24 +13,24 @@ const Home: NextPage = () => {
 
   const checkAuthStatus = async () => {
     try {
-      const response = await fetch('/api/auth/status');
+      const response = await fetch("/api/auth/status");
       if (response.ok) {
         const userData = await response.json();
         setUser(userData);
       }
     } catch (error) {
-      console.error('Auth check failed:', error);
+      console.error("Auth check failed:", error);
     } finally {
       setLoading(false);
     }
   };
 
   const handleLogin = () => {
-    window.location.href = '/api/auth/login';
+    window.location.href = "/api/auth/login";
   };
 
   const handleLogout = async () => {
-    await fetch('/api/auth/logout', { method: 'POST' });
+    await fetch("/api/auth/logout", { method: "POST" });
     setUser(null);
   };
 
@@ -49,8 +48,11 @@ const Home: NextPage = () => {
     <div className={styles.container}>
       <Head>
         <title>Certificate Generator</title>
-        <meta name="description" content="Generate certificates of participation" />
-        <link rel="icon" href="/favicon.ico" />
+        <meta
+          name='description'
+          content='Generate certificates of participation'
+        />
+        <link rel='icon' href='/favicon.ico' />
       </Head>
 
       <main className={styles.main}>
@@ -61,10 +63,7 @@ const Home: NextPage = () => {
             <p className={styles.description}>
               Please login with your Google account to generate certificates
             </p>
-            <button 
-              onClick={handleLogin}
-              className={styles.loginButton}
-            >
+            <button onClick={handleLogin} className={styles.loginButton}>
               Login with Google
             </button>
           </div>
@@ -73,25 +72,24 @@ const Home: NextPage = () => {
             <p className={styles.description}>
               Welcome, {user.name}! Generate your certificate below.
             </p>
-            <div style={{ marginBottom: '20px' }}>
-              <button 
-                onClick={handleLogout}
-                className={styles.logoutButton}
-              >
+            <div style={{ marginBottom: "20px" }}>
+              <button onClick={handleLogout} className={styles.logoutButton}>
                 Logout
               </button>
-              <a 
-                href="/submission" 
+              <a
+                href='/submission'
                 className={styles.loginButton}
-                style={{ textDecoration: 'none', display: 'inline-block', marginRight: '10px' }}
-              >
+                style={{
+                  textDecoration: "none",
+                  display: "inline-block",
+                  marginRight: "10px",
+                }}>
                 Workshop Submission Form
               </a>
-              <a 
-                href="/submissions-list" 
+              <a
+                href='/submissions-list'
                 className={styles.loginButton}
-                style={{ textDecoration: 'none', display: 'inline-block' }}
-              >
+                style={{ textDecoration: "none", display: "inline-block" }}>
                 View All Submissions
               </a>
             </div>
@@ -104,46 +102,47 @@ const Home: NextPage = () => {
 };
 
 const CertificateForm = ({ userEmail }: { userEmail: string }) => {
-  const [personName, setPersonName] = useState('');
-  const [workshopName, setWorkshopName] = useState('');
+  const [personName, setPersonName] = useState("");
+  const [workshopName, setWorkshopName] = useState("");
   const [generating, setGenerating] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!personName.trim() || !workshopName.trim()) {
-      alert('Please fill in both fields');
+      alert("Please fill in both fields");
       return;
     }
 
     setGenerating(true);
     try {
-      const response = await fetch('/api/generate-certificate', {
-        method: 'POST',
+      const response = await fetch("/api/generate-certificate", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           personName: personName.trim(),
           workshopName: workshopName.trim(),
         }),
       });
+      console.log(response);
 
       if (response.ok) {
         const blob = await response.blob();
         const url = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
+        const a = document.createElement("a");
         a.href = url;
-        a.download = `certificate-${personName.replace(/\s+/g, '-')}.pdf`;
+        a.download = `certificate-${personName.replace(/\s+/g, "-")}.pdf`;
         document.body.appendChild(a);
         a.click();
         window.URL.revokeObjectURL(url);
         document.body.removeChild(a);
       } else {
-        alert('Failed to generate certificate');
+        alert("Failed to generate certificate");
       }
     } catch (error) {
-      console.error('Error generating certificate:', error);
-      alert('Failed to generate certificate');
+      console.error("Error generating certificate:", error);
+      alert("Failed to generate certificate");
     } finally {
       setGenerating(false);
     }
@@ -152,35 +151,34 @@ const CertificateForm = ({ userEmail }: { userEmail: string }) => {
   return (
     <form onSubmit={handleSubmit} className={styles.form}>
       <div className={styles.formGroup}>
-        <label htmlFor="personName">Person Name:</label>
+        <label htmlFor='personName'>Person Name:</label>
         <input
-          type="text"
-          id="personName"
+          type='text'
+          id='personName'
           value={personName}
           onChange={(e) => setPersonName(e.target.value)}
-          placeholder="Enter participant name"
-          required
-        />
-      </div>
-      
-      <div className={styles.formGroup}>
-        <label htmlFor="workshopName">Workshop Name:</label>
-        <input
-          type="text"
-          id="workshopName"
-          value={workshopName}
-          onChange={(e) => setWorkshopName(e.target.value)}
-          placeholder="Enter workshop name"
+          placeholder='Enter participant name'
           required
         />
       </div>
 
-      <button 
-        type="submit" 
+      <div className={styles.formGroup}>
+        <label htmlFor='workshopName'>Workshop Name:</label>
+        <input
+          type='text'
+          id='workshopName'
+          value={workshopName}
+          onChange={(e) => setWorkshopName(e.target.value)}
+          placeholder='Enter workshop name'
+          required
+        />
+      </div>
+
+      <button
+        type='submit'
         disabled={generating}
-        className={styles.generateButton}
-      >
-        {generating ? 'Generating...' : 'Generate Certificate'}
+        className={styles.generateButton}>
+        {generating ? "Generating..." : "Generate Certificate"}
       </button>
     </form>
   );

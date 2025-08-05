@@ -47,9 +47,9 @@ export default async function handler(
         logoDataUri,
         "PNG",
         doc.internal.pageSize.width / 2 - 150,
-        30,
-        300,
-        160,
+        90,
+        250,
+        70,
       );
     } catch (logoError) {
       console.error("Failed to load STEM logo:", logoError);
@@ -81,21 +81,21 @@ export default async function handler(
     doc.text(
       "CERTIFICATE OF PARTICIPATION",
       doc.internal.pageSize.width / 2,
-      200,
+      220,
       { align: "center" },
     );
 
     // Subtitle
     doc.setFontSize(18);
     doc.setTextColor(100, 100, 100);
-    doc.text("This is to certify that", doc.internal.pageSize.width / 2, 240, {
+    doc.text("This is to certify that", doc.internal.pageSize.width / 2, 250, {
       align: "center",
     });
 
     // Participant name
     doc.setFontSize(32);
     doc.setTextColor(150, 0, 0);
-    doc.text(personName, doc.internal.pageSize.width / 2, 280, {
+    doc.text(personName, doc.internal.pageSize.width / 2, 300, {
       align: "center",
     });
 
@@ -147,9 +147,9 @@ export default async function handler(
         logoDataUri,
         "PNG",
         doc.internal.pageSize.width - 230,
-        doc.internal.pageSize.height - 200,
-        140,
-        90,
+        doc.internal.pageSize.height - 190,
+        120,
+        80,
       );
     } catch (logoError) {
       console.error("Failed to load STEM logo:", logoError);
