@@ -260,7 +260,7 @@ const SubmissionsList: NextPage = () => {
                     </td>
                     <td style={{ padding: "12px", border: "1px solid #ddd" }}>
                       <a
-                        href={`/submission-detail/${submission._id}`}
+                        href={`/workshop/${submission._id}`}
                         style={{
                           color: "#0070f3",
                           textDecoration: "none",
