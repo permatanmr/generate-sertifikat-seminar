@@ -52,7 +52,7 @@ const SubmissionsList: NextPage = () => {
 
     for (const submission of submissionsList) {
       try {
-        const url = `${window.location.origin}/submission-detail/${submission._id}`;
+        const url = `${window.location.origin}/workshop/${submission._id}`;
         const qrDataUrl = await QRCode.toDataURL(url, {
           width: 100,
           margin: 1,
@@ -68,7 +68,7 @@ const SubmissionsList: NextPage = () => {
 
   const handleQRClick = async (submission: Submission) => {
     try {
-      const url = `${window.location.origin}/submission-detail/${submission._id}`;
+      const url = `${window.location.origin}/workshop/${submission._id}`;
       const qrDataUrl = await QRCode.toDataURL(url, {
         width: 300,
         margin: 2,
