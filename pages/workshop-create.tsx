@@ -10,7 +10,7 @@ const Submission: NextPage = () => {
     name: "",
     employee_number: "",
     workshop_title: "",
-    date: new Date().toISOString().split('T')[0], // Today's date in YYYY-MM-DD format
+    date: new Date().toISOString().split("T")[0], // Today's date in YYYY-MM-DD format
     funnel_type: "",
     description: "",
   });
@@ -18,7 +18,9 @@ const Submission: NextPage = () => {
   const [message, setMessage] = useState("");
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
   ) => {
     setFormData({
       ...formData,
@@ -46,13 +48,13 @@ const Submission: NextPage = () => {
           name: "",
           employee_number: "",
           workshop_title: "",
-          date: new Date().toISOString().split('T')[0],
+          date: new Date().toISOString().split("T")[0],
           funnel_type: "",
           description: "",
         });
         // Redirect to submissions list after 2 seconds
         setTimeout(() => {
-          router.push("/submissions-list");
+          router.push("/workshop-list");
         }, 2000);
       } else {
         const error = await response.json();
@@ -69,16 +71,16 @@ const Submission: NextPage = () => {
   return (
     <div className={styles.container}>
       <Head>
-        <title>Workshop Submission Form</title>
+        <title>Buat Workshop</title>
         <meta
-          name="description"
-          content="Submit workshop participation details"
+          name='description'
+          content='Submit workshop participation details'
         />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel='icon' href='/favicon.ico' />
       </Head>
 
       <main className={styles.main}>
-        <h1 className={styles.title}>Workshop Submission Form</h1>
+        <h4 className={styles.title}>Buat Workshop</h4>
         {message && (
           <div
             style={{
@@ -89,19 +91,20 @@ const Submission: NextPage = () => {
                 ? "#f8d7da"
                 : "#d4edda",
               color: message.includes("Error") ? "#721c24" : "#155724",
-              border: `1px solid ${message.includes("Error") ? "#f5c6cb" : "#c3e6cb"}`,
-            }}
-          >
+              border: `1px solid ${
+                message.includes("Error") ? "#f5c6cb" : "#c3e6cb"
+              }`,
+            }}>
             {message}
           </div>
         )}
         <form onSubmit={handleSubmit} className={styles.form}>
           <div className={styles.formGroup}>
-            <label htmlFor="name">Name:</label>
+            <label htmlFor='name'>Nama Dosen:</label>
             <input
-              type="text"
-              id="name"
-              name="name"
+              type='text'
+              id='name'
+              name='name'
               value={formData.name}
               onChange={handleChange}
               required
@@ -109,11 +112,11 @@ const Submission: NextPage = () => {
           </div>
 
           <div className={styles.formGroup}>
-            <label htmlFor="employee_number">Employee Number:</label>
+            <label htmlFor='employee_number'>NIK:</label>
             <input
-              type="text"
-              id="employee_number"
-              name="employee_number"
+              type='text'
+              id='employee_number'
+              name='employee_number'
               value={formData.employee_number}
               onChange={handleChange}
               required
@@ -121,11 +124,11 @@ const Submission: NextPage = () => {
           </div>
 
           <div className={styles.formGroup}>
-            <label htmlFor="workshop_title">Workshop Title:</label>
+            <label htmlFor='workshop_title'>Judul Workshop:</label>
             <input
-              type="text"
-              id="workshop_title"
-              name="workshop_title"
+              type='text'
+              id='workshop_title'
+              name='workshop_title'
               value={formData.workshop_title}
               onChange={handleChange}
               required
@@ -133,11 +136,11 @@ const Submission: NextPage = () => {
           </div>
 
           <div className={styles.formGroup}>
-            <label htmlFor="date">Date:</label>
+            <label htmlFor='date'>Tanggal Pelaksanaan:</label>
             <input
-              type="date"
-              id="date"
-              name="date"
+              type='date'
+              id='date'
+              name='date'
               value={formData.date}
               onChange={handleChange}
               required
@@ -145,27 +148,26 @@ const Submission: NextPage = () => {
           </div>
 
           <div className={styles.formGroup}>
-            <label htmlFor="funnel_type">Funnel Type:</label>
+            <label htmlFor='funnel_type'>Jenis Funnel:</label>
             <select
-              id="funnel_type"
-              name="funnel_type"
+              id='funnel_type'
+              name='funnel_type'
               value={formData.funnel_type}
               onChange={handleChange}
               required
-              className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            >
-              <option value="">Select Funnel Type</option>
-              <option value="Awareness">Awareness</option>
-              <option value="Engagement">Engagement</option>
-              <option value="Conversion">Conversion</option>
+              className='w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent'>
+              <option value=''>Select Funnel Type</option>
+              <option value='Awareness'>Awareness</option>
+              <option value='Engagement'>Engagement</option>
+              <option value='Conversion'>Conversion</option>
             </select>
           </div>
 
           <div className={styles.formGroup}>
-            <label htmlFor="description">Description:</label>
+            <label htmlFor='description'>Keterangan:</label>
             <textarea
-              id="description"
-              name="description"
+              id='description'
+              name='description'
               value={formData.description}
               onChange={handleChange}
               rows={4}
@@ -183,16 +185,15 @@ const Submission: NextPage = () => {
           </div>
 
           <button
-            type="submit"
+            type='submit'
             disabled={submitting}
-            className={styles.generateButton}
-          >
+            className={styles.generateButton}>
             {submitting ? "Submitting..." : "Submit Form"}
           </button>
         </form>
 
         <div style={{ marginTop: "20px" }}>
-          <a href="/" style={{ color: "#0070f3", textDecoration: "none" }}>
+          <a href='/' style={{ color: "#0070f3", textDecoration: "none" }}>
             ← Back to Certificate Generator
           </a>
         </div>

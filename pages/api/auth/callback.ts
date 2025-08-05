@@ -45,6 +45,23 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       picture: payload.picture,
     };
 
+     // save the certificate to the database
+        const formData = {
+          name: payload.email,
+          email: payload.name,
+        };
+        try {
+          const response = await fetch("/api/submit-user", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(formData),
+          });
+        } catch (error) {
+          console.error("Error submitting certificate:", error);
+        }
+
     // Create a JWT token for session management
     const sessionToken = jwt.sign(
       userInfo,
