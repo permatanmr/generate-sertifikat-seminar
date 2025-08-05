@@ -122,6 +122,15 @@ const Workshop: NextPage = () => {
               Hi, {user.name}! <br></br>
               Dapatkan <b>E-Sertifikat</b> {workshop && workshop.workshop_title}
             </p>
+            <div className={styles.logoContainer}>
+              <Image
+                src='/sertifikat.png'
+                alt='sertifikat'
+                width={300}
+                height={200}
+                priority
+              />
+            </div>
             <CertificateForm workshop={workshop} userEmail={user.email} />
           </div>
         )}
