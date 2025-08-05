@@ -14,7 +14,7 @@ export default async function handler(
     return res.status(405).json({ error: "Method not allowed" });
   }
 
-  const { name, email, school} = req.body;
+  const { name, email, school, workshop} = req.body;
 
   // Validate required fields
   if (!name || !email || !school) {
@@ -39,6 +39,7 @@ export default async function handler(
       name: name.trim(),
       email: email.trim(),
       school: school.trim(),
+      workshop_title: workshop.trim(),
       created_at: new Date()
     };
 

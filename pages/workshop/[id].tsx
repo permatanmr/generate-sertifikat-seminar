@@ -167,6 +167,7 @@ const CertificateForm = ({
           name: personName.trim(),
           email: userEmail,
           school: namaInstansi.trim(),
+          workshop: workshop.workshop_title,
         };
         try {
           const response = await fetch("/api/submit-certificate", {
