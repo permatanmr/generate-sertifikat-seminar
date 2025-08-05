@@ -6,7 +6,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
   // For Replit, ensure we always use https and the correct host
   const host = req.headers.host;
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || `https://${host}`;
-  const redirectUri = `${baseUrl}/api/auth/callback`;
+  const redirectUri = `${baseUrl}/api/auth/callback/`;
   
   //console.log('Redirect URI:', redirectUri); // Debug log
 
