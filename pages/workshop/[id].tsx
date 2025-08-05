@@ -17,7 +17,10 @@ interface Submission {
   ip_address?: string;
 }
 const Workshop: NextPage = () => {
-  const [user, setUser] = useState<any>({ name: "Permata" });
+  const [user, setUser] = useState<any>({
+    name: "Permata",
+    email: "permata.nmr@pmbs.ac.id",
+  });
   const [loading, setLoading] = useState(true);
   const [workshop, setSubmission] = useState<Submission | null>(null);
   const router = useRouter();
@@ -109,7 +112,7 @@ const Workshop: NextPage = () => {
               Hi, {user.name}! <br></br>
               Dapatkan <b>E-Sertifikat</b> {workshop && workshop.workshop_title}
             </p>
-            <CertificateForm workshop={workshop} />
+            <CertificateForm workshop={workshop} userEmail={user.email} />
           </div>
         )}
       </main>
@@ -117,12 +120,17 @@ const Workshop: NextPage = () => {
   );
 };
 
-const CertificateForm = ({ workshop }: { workshop: any }) => {
+const CertificateForm = ({
+  workshop,
+  userEmail,
+}: {
+  workshop: any;
+  userEmail: string;
+}) => {
   const [personName, setPersonName] = useState("");
   const [namaInstansi, setnamaInstansi] = useState("");
   const [generating, setGenerating] = useState(false);
 
-  console.log("Workshop data:", workshop);
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!personName.trim() || !namaInstansi.trim()) {
@@ -153,6 +161,24 @@ const CertificateForm = ({ workshop }: { workshop: any }) => {
         a.click();
         window.URL.revokeObjectURL(url);
         document.body.removeChild(a);
+
+        // save the certificate to the database
+        const formData = {
+          name: personName.trim(),
+          email: userEmail,
+          school: namaInstansi.trim(),
+        };
+        try {
+          const response = await fetch("/api/submit-certificate", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(formData),
+          });
+        } catch (error) {
+          console.error("Error submitting certificate:", error);
+        }
       } else {
         alert("Failed to generate certificate");
       }
