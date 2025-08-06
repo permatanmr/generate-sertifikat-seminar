@@ -12,17 +12,17 @@ export default async function handler(
     return res.status(405).json({ error: "Method not allowed" });
   }
 
-  const { session } = req.cookies;
-  // console.log("Session:", session);
-  if (!session) {
-    return res.status(401).json({ error: "Not authenticated" });
-  }
+  // const { session } = req.cookies;
+  // // console.log("Session:", session);
+  // if (!session) {
+  //   return res.status(401).json({ error: "Not authenticated" });
+  // }
 
-  try {
-    jwt.verify(session, process.env.JWT_SECRET || "fallback-secret");
-  } catch (error) {
-    return res.status(401).json({ error: "Invalid session" });
-  }
+  // try {
+  //   jwt.verify(session, process.env.JWT_SECRET || "fallback-secret");
+  // } catch (error) {
+  //   return res.status(401).json({ error: "Invalid session" });
+  // }
 
   const { personName, workshopName, namaInstansi } = req.body;
 
