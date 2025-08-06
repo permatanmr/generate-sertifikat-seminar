@@ -132,6 +132,9 @@ const Workshop: NextPage = () => {
               />
             </div>
             <CertificateForm workshop={workshop} userEmail={user.email} />
+            <button onClick={handleLogout} className={styles.logoutButton}>
+              Logout
+            </button>
           </div>
         )}
       </main>

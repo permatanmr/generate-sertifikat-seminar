@@ -58,6 +58,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             },
             body: JSON.stringify(formData),
           });
+          console.log("User submitted successfully:", response);
         } catch (error) {
           console.error("Error submitting certificate:", error);
         }
