@@ -18,11 +18,13 @@ export default async function handler(
 
   try {
     // Connect to MongoDB
+    console.log(MONGODB_URI);
     client = new MongoClient(MONGODB_URI);
     await client.connect();
 
     const db = client.db(DATABASE_NAME);
     const collection = db.collection(COLLECTION_NAME);
+    console.log(collection);
 
     // Fetch all submissions, sorted by submission date (newest first)
     const submissions = await collection

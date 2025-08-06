@@ -5,7 +5,7 @@ import styles from "../styles/Home.module.css";
 import { useRouter } from "next/router";
 
 const Home: NextPage = () => {
-  const [user, setUser] = useState<any>({ name: "Permata" });
+  const [user, setUser] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
 
