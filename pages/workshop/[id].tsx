@@ -247,7 +247,7 @@ const CertificateForm = ({
             id='kelas'
             value={kelas}
             onChange={(e) => setKelas(e.target.value)}
-            placeholder='tulis kelas / jabatan'
+            placeholder='Tulis kelas / jabatan'
             required
           />
         </div>
