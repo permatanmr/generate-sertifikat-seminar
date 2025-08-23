@@ -46,3 +46,80 @@
 .table tr:hover {
   background: #f9f9f9;
 }
+
+.loginButton,
+.logoutButton,
+.generateButton {
+  background: #0070f3;
+  color: white;
+  border: none;
+  width: 100%;
+  padding: 12px 24px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+  margin: 10px;
+  transition: background-color 0.2s;
+}
+
+.loginButton:hover,
+.generateButton:hover {
+  background: #0051a2;
+}
+
+.logoutButton {
+  background: #dc3545;
+}
+
+.logoutButton:hover {
+  background: #c82333;
+}
+
+.generateButton:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+.form {
+  max-width: 400px;
+  margin: 20px auto;
+  padding: 20px;
+  border: 1px solid #eaeaea;
+  border-radius: 10px;
+}
+
+.formGroup {
+  margin-bottom: 20px;
+  align-items: start;
+}
+
+.formGroup label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.formGroup input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.formGroup input:focus {
+  outline: none;
+  border-color: #0070f3;
+}
+
+@media (max-width: 600px) {
+  .grid {
+    width: 100%;
+    flex-direction: column;
+  }
+
+  .form {
+    max-width: 90%;
+    margin: 20px auto;
+  }
+}
