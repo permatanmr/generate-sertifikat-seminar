@@ -151,6 +151,8 @@ const CertificateForm = ({
 }) => {
   const [personName, setPersonName] = useState("");
   const [namaInstansi, setnamaInstansi] = useState("");
+  const [kelas, setKelas] = useState("");
+  const [handphone, setHandphone] = useState("");
   const [generating, setGenerating] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -170,6 +172,8 @@ const CertificateForm = ({
           personName: personName.trim(),
           workshopName: workshop.workshop_title,
           namaInstansi: namaInstansi.trim(),
+          kelas: kelas.trim(),
+          handphone: handphone.trim(),
         }),
       });
 
@@ -233,7 +237,27 @@ const CertificateForm = ({
             id='schoolName'
             value={namaInstansi}
             onChange={(e) => setnamaInstansi(e.target.value)}
-            placeholder='Tulis nama sekolah'
+            placeholder='Tulis asal sekolah / Instansi'
+            required
+          />
+        </div>
+        <div className={styles.formGroup}>
+          <input
+            type='text'
+            id='kelas'
+            value={kelas}
+            onChange={(e) => setKelas(e.target.value)}
+            placeholder='tulis kelas / jabatan'
+            required
+          />
+        </div>
+        <div className={styles.formGroup}>
+          <input
+            type='text'
+            id='handphone'
+            value={handphone}
+            onChange={(e) => setHandphone(e.target.value)}
+            placeholder='Tulis nomor handphone'
             required
           />
         </div>
