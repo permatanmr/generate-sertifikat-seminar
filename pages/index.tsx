@@ -62,7 +62,8 @@ const Home: NextPage = () => {
       </Head>
 
       <main className={styles.main}>
-        {!user ? (
+        <p>Silahkan hubungi Admin untuk bisa menggunakan fitur ini</p>
+        {/* {!user ? (
           <div>
             <p className={styles.description}>
               Please login with your Google account to generate certificates
@@ -78,7 +79,7 @@ const Home: NextPage = () => {
               untuk mendapatkan E-Sertifikat berikut
             </p>
           </div>
-        )}
+        )} */}
       </main>
     </div>
   );

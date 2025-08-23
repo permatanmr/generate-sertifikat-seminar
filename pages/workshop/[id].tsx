@@ -194,6 +194,8 @@ const CertificateForm = ({
           email: userEmail,
           school: namaInstansi.trim(),
           workshop: workshop.workshop_title,
+          kelas: kelas.trim(),
+          handphone: handphone.trim(),
         };
         try {
           const response = await fetch("/api/submit-certificate", {
@@ -203,6 +205,7 @@ const CertificateForm = ({
             },
             body: JSON.stringify(formData),
           });
+          
         } catch (error) {
           console.error("Error submitting certificate:", error);
         }

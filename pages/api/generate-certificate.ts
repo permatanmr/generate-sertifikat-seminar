@@ -32,6 +32,9 @@ export default async function handler(
       .json({ error: "Person name and workshop name are required" });
   }
 
+  //save certificate detail to DB here
+  
+
   try {
     // Create PDF certificate
     const doc = new jsPDF("landscape", "pt", "a4");
