@@ -71,6 +71,51 @@ const AdminSubmissions: NextPage = () => {
     }
   };
 
+  const downloadCSV = () => {
+    // CSV Header
+    const headers = [
+      "Name",
+      "Email",
+      "HP",
+      "Kelas / Jabatan",
+      "Sekolah / Instansi",
+      "Workshop",
+      "Created At",
+    ];
+
+    // Convert submissions to CSV rows
+    const csvRows = submissions.map((submission) => [
+      submission.name,
+      submission.email,
+      submission.handphone,
+      submission.kelas,
+      submission.school,
+      submission.workshop_title,
+      new Date(submission.created_at).toLocaleString(),
+    ]);
+    console.log(csvRows);
+
+    // Combine headers and rows
+    const csvContent = [
+      headers.join(";"),
+      ...csvRows.map((row) => row.join(";")),
+    ].join("\n");
+
+    // Create and trigger download
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+    const link = document.createElement("a");
+    const url = URL.createObjectURL(blob);
+    link.setAttribute("href", url);
+    link.setAttribute(
+      "download",
+      `data-certificate-${new Date().toISOString().split("T")[0]}.csv`
+    );
+    link.style.visibility = "hidden";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
 
@@ -112,6 +157,13 @@ const AdminSubmissions: NextPage = () => {
         ) : (
           <>
             <h1 className={styles.title}>Workshop Submissions</h1>
+            <div>
+              <div className={styles.controls}>
+                <button onClick={downloadCSV} className={styles.downloadButton}>
+                  Download CSV
+                </button>
+              </div>
+            </div>
             <div className={styles.grid}>
               <table className={styles.table}>
                 <thead>
