@@ -111,7 +111,7 @@ export default async function handler(
     });
 
     // Participation text
-    doc.setFontSize(18);
+    doc.setFontSize(20);
     doc.setTextColor(100, 100, 100);
     doc.text(
       "has successfully participated in",
@@ -121,7 +121,7 @@ export default async function handler(
     );
 
     // Workshop name
-    doc.setFontSize(28);
+    doc.setFontSize(24);
     doc.setTextColor(150, 0, 0);
     doc.text(workshopName, doc.internal.pageSize.width / 2, 375, {
       align: "center",

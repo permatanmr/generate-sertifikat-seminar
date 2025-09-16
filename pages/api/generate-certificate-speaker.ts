@@ -83,7 +83,7 @@ export default async function handler(
     doc.setFontSize(32);
     doc.setTextColor(150, 0, 0);
     doc.text(
-      "CERTIFICATE OF PARTICIPATION",
+      "CERTIFICATE OF APPRECIATION",
       doc.internal.pageSize.width / 2,
       200,
       { align: "center" },
@@ -121,7 +121,7 @@ export default async function handler(
     );
 
     // Workshop name
-    doc.setFontSize(28);
+    doc.setFontSize(24);
     doc.setTextColor(150, 0, 0);
     doc.text(workshopName, doc.internal.pageSize.width / 2, 375, {
       align: "center",
