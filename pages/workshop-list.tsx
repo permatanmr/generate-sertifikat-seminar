@@ -82,6 +82,23 @@ const SubmissionsList: NextPage = () => {
     }
   };
 
+  const handleQRSpeakerClick = async (submission: Submission) => {
+    try {
+      const url = `${window.location.origin}/qrcode-speaker/${submission._id}`;
+      const qrDataUrl = await QRCode.toDataURL(url, {
+        width: 300,
+        margin: 2,
+      });
+      setPreviewQR({
+        url: qrDataUrl,
+        name: submission.name,
+      });
+    } catch (error) {
+      console.error("Error generating preview QR code:", error);
+    }
+  };
+
+
   const closePreview = () => {
     setPreviewQR(null);
   };
@@ -173,7 +190,15 @@ const SubmissionsList: NextPage = () => {
                       border: "1px solid #ddd",
                       textAlign: "left",
                     }}>
-                    QR Code
+                    QR Code Student
+                  </th>
+                  <th
+                    style={{
+                      padding: "12px",
+                      border: "1px solid #ddd",
+                      textAlign: "left",
+                    }}>
+                    QR Code Speaker
                   </th>
                   <th
                     style={{
@@ -230,6 +255,33 @@ const SubmissionsList: NextPage = () => {
                           }}
                           title='Click to preview larger QR code'
                           onClick={() => handleQRClick(submission)}
+                          onMouseOver={(e) => {
+                            e.currentTarget.style.transform = "scale(1.1)";
+                          }}
+                          onMouseOut={(e) => {
+                            e.currentTarget.style.transform = "scale(1)";
+                          }}
+                        />
+                      )}
+                    </td>
+                    <td
+                      style={{
+                        padding: "12px",
+                        border: "1px solid #ddd",
+                        textAlign: "center",
+                      }}>
+                      {qrCodes[submission._id] && (
+                        <img
+                          src={qrCodes[submission._id]}
+                          alt={`QR code for ${submission.name}`}
+                          style={{
+                            maxWidth: "120px",
+                            height: "auto",
+                            cursor: "pointer",
+                            transition: "transform 0.2s ease",
+                          }}
+                          title='Click to preview larger QR code'
+                          onClick={() => handleQRSpeakerClick(submission)}
                           onMouseOver={(e) => {
                             e.currentTarget.style.transform = "scale(1.1)";
                           }}
