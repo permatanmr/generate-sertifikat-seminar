@@ -175,15 +175,6 @@ const SubmissionsList: NextPage = () => {
                     }}>
                     Workshop Title
                   </th>
-
-                  <th
-                    style={{
-                      padding: "12px",
-                      border: "1px solid #ddd",
-                      textAlign: "left",
-                    }}>
-                    Funnel Type
-                  </th>
                   <th
                     style={{
                       padding: "12px",
@@ -214,27 +205,13 @@ const SubmissionsList: NextPage = () => {
                 {submissions.map((submission) => (
                   <tr key={submission._id}>
                     <td style={{ padding: "12px", border: "1px solid #ddd" }}>
-                      {new Date(submission.submitted_at).toLocaleDateString()}
+                      {new Date(submission.date).toLocaleDateString()}
                     </td>
                     <td style={{ padding: "12px", border: "1px solid #ddd" }}>
                       {submission.name}
                     </td>
                     <td style={{ padding: "12px", border: "1px solid #ddd" }}>
                       {submission.workshop_title}
-                    </td>
-                    <td style={{ padding: "12px", border: "1px solid #ddd" }}>
-                      <span
-                        className={`px-2 py-1 rounded text-sm ${
-                          submission.funnel_type === "Awareness"
-                            ? "bg-blue-100 text-blue-800"
-                            : submission.funnel_type === "Engagement"
-                            ? "bg-green-100 text-green-800"
-                            : submission.funnel_type === "Conversion"
-                            ? "bg-purple-100 text-purple-800"
-                            : "bg-gray-100 text-gray-800"
-                        }`}>
-                        {submission.funnel_type}
-                      </span>
                     </td>
 
                     <td

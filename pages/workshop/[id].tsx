@@ -38,7 +38,7 @@ const Workshop: NextPage = () => {
       const response = await fetch(`/api/get-submission/${id}`);
       if (response.ok) {
         const data = await response.json();
-        // console.log("Fetched submission data:", data);
+        console.log("Fetched submission data:", data);
         setSubmission(data.submission);
       } else {
         setError("Submission not found");
@@ -174,6 +174,7 @@ const CertificateForm = ({
           namaInstansi: namaInstansi.trim(),
           kelas: kelas.trim(),
           handphone: handphone.trim(),
+          date: workshop.date,
         }),
       });
 

@@ -24,7 +24,7 @@ export default async function handler(
   //   return res.status(401).json({ error: "Invalid session" });
   // }
 
-  const { personName, workshopName, namaInstansi } = req.body;
+  const { personName, workshopName, namaInstansi, date } = req.body;
 
   if (!personName || !workshopName) {
     return res
@@ -138,7 +138,7 @@ export default async function handler(
     );
 
     // Date
-    const currentDate = new Date().toLocaleDateString("en-US", {
+    const currentDate = new Date(date).toLocaleDateString("en-US", {
       year: "numeric",
       month: "long",
       day: "numeric",
