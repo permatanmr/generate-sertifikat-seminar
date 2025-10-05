@@ -31,6 +31,7 @@ const AdminSubmissions: NextPage = () => {
       const response = await fetch("/api/get-certificate");
       if (response.ok) {
         const data = await response.json();
+        console.log("Fetched submissions:", data);
         setSubmissions(data.certificates);
       } else {
         setError("Failed to fetch submissions");
