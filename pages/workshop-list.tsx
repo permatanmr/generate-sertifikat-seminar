@@ -24,6 +24,7 @@ const SubmissionsList: NextPage = () => {
     url: string;
     name: string;
   } | null>(null);
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
     fetchSubmissions();
@@ -114,7 +115,7 @@ const SubmissionsList: NextPage = () => {
   }
 
   return (
-    <div className={styles.container}>
+  <div className={styles.container}>
       <Head>
         <title>Workshop Submissions List</title>
         <meta name='description' content='List of all workshop submissions' />
@@ -123,7 +124,24 @@ const SubmissionsList: NextPage = () => {
 
       <main className={styles.main}>
         <h3 className={styles.title}>Workshop STEM</h3>
-        <br></br>
+        <br />
+        {/* Search Bar */}
+        <div style={{ marginBottom: 24 }}>
+          <input
+            type="text"
+            value={search}
+            onChange={e => setSearch(e.target.value)}
+            placeholder="Search by title or name..."
+            style={{
+              padding: "10px",
+              borderRadius: "6px",
+              border: "1px solid #ccc",
+              width: "100%",
+              maxWidth: 400,
+              fontSize: 16,
+            }}
+          />
+        </div>
 
         {error && (
           <div
@@ -202,7 +220,12 @@ const SubmissionsList: NextPage = () => {
                 </tr>
               </thead>
               <tbody>
-                {submissions.map((submission) => (
+                {submissions
+                  .filter(submission =>
+                    submission.workshop_title.toLowerCase().includes(search.toLowerCase()) ||
+                    submission.name.toLowerCase().includes(search.toLowerCase())
+                  )
+                  .map((submission) => (
                   <tr key={submission._id}>
                     <td style={{ padding: "12px", border: "1px solid #ddd" }}>
                       {new Date(submission.date).toLocaleDateString()}

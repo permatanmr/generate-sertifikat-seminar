@@ -29,7 +29,7 @@ export default async function handler(
     // Fetch all submissions, sorted by submission date (newest first)
     const submissions = await collection
       .find({})
-      .sort({ submitted_at: -1 })
+      .sort({ date: -1 })
       .toArray();
 
     res.status(200).json({
