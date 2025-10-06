@@ -197,7 +197,7 @@ const SubmissionsList: NextPage = () => {
                       border: "1px solid #ddd",
                       textAlign: "left",
                     }}>
-                    Actions
+                    Quiz
                   </th>
                 </tr>
               </thead>
@@ -270,7 +270,7 @@ const SubmissionsList: NextPage = () => {
                     </td>
                     <td style={{ padding: "12px", border: "1px solid #ddd" }}>
                       <a
-                        href={`/workshop/${submission._id}`}
+                        href={`/wheel-spinner?workshopId=${submission._id}`}
                         style={{
                           color: "#0070f3",
                           textDecoration: "none",
@@ -279,7 +279,7 @@ const SubmissionsList: NextPage = () => {
                           borderRadius: "4px",
                           border: "1px solid #0070f3",
                         }}>
-                        Details
+                        Link
                       </a>
                     </td>
                   </tr>

@@ -1,103 +1,8 @@
-// import React, { useEffect, useState } from 'react';
-
-// // Simple wheel spinner component
-// const WheelSpinner: React.FC = () => {
-//   const [names, setNames] = useState<string[]>([]);
-//   const [selected, setSelected] = useState<number | null>(null);
-//   const [spinning, setSpinning] = useState(false);
-//   const [isLoading, setIsLoading] = useState(false);
-
-//   // Get workshop id from query string, fetch workshop name, then get certificates
-//   useEffect(() => {
-//     const params = new URLSearchParams(window.location.search);
-//     const workshopId = params.get('workshopId');
-//     if (!workshopId) return;
-//     setIsLoading(true);
-
-//     // Step 1: Get workshop name by id
-//     fetch(`/api/get-submission/${encodeURIComponent(workshopId)}`)
-//       .then(res => res.json())
-//       .then(workshopData => {
-//         const workshopName = workshopData.submission?.workshop_title;
-//         console.log("Workshop Data:", workshopData);
-//         if (!workshopName) return;
-//         // Step 2: Get certificates by workshop name
-//         fetch(`/api/get-certificate/${encodeURIComponent(workshopName)}`)
-//           .then(res => res.json())
-//           .then(data => {
-//             console.log("Certificates Data:", data.submission );
-//             setNames(data.submission.map((item: any) => item.name));
-//             setIsLoading(false);
-//           });
-//       });
-//   }, []);
-
-//   const spinWheel = () => {
-//     setSpinning(true);
-//     setSelected(null);
-//     // Simulate spinning animation
-//     setTimeout(() => {
-//       const winner = Math.floor(Math.random() * names.length);
-//       setSelected(winner);
-//       setSpinning(false);
-//     }, 2000);
-//   };
-
-//   return (
-//     <div style={{ textAlign: 'center', marginTop: 40 }}>
-//       <h1>Wheel Spinner</h1>
-//       <div style={{ margin: '30px auto', width: 300, height: 300, position: 'relative', borderRadius: '50%', border: '8px solid #eee', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#fafafa' }}>
-//         {isLoading ? (
-//           <p>Loading names...</p>
-//         ) : (
-//           <ul style={{ listStyle: 'none', padding: 0, margin: 0, width: '100%', height: '100%', position: 'absolute', top: 0, left: 0 }}>
-//             {names.map((name, idx) => (
-//               <li
-//                 key={name + '-' + idx}
-//                 style={{
-//                   position: 'absolute',
-//                   left: '50%',
-//                   top: '50%',
-//                   transform: `rotate(${(360 / names.length) * idx}deg) translate(120px) rotate(-${(360 / names.length) * idx}deg)`,
-//                   transformOrigin: '0 0',
-//                   fontWeight: selected === idx ? 'bold' : 'normal',
-//                   color: selected === idx ? 'red' : '#333',
-//                   fontSize: 18,
-//                   transition: 'color 0.3s, font-weight 0.3s',
-//                 }}
-//               >
-//                 {name}
-//               </li>
-//             ))}
-//           </ul>
-//         )}
-//         {!isLoading && <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', pointerEvents: 'none' }}>
-//           <span style={{ fontSize: 32, color: '#888' }}>🎯</span>
-//         </div>}
-//       </div>
-//       <button onClick={spinWheel} disabled={spinning || names.length === 0} style={{ fontSize: 20, padding: '10px 30px', borderRadius: 8, background: '#0070f3', color: '#fff', border: 'none', cursor: 'pointer' }}>
-//         {spinning ? 'Spinning...' : 'Spin'}
-//       </button>
-//       {selected !== null && (
-//         <div style={{ marginTop: 30 }}>
-//           <h2>Winner: <span style={{ color: 'green' }}>{names[selected]}</span></h2>
-//         </div>
-//       )}
-//     </div>
-//   );
-// };
-
-// export default WheelSpinner;
-
-
-
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 
 const SpinWheel = () => {
-  const [options, setOptions] = useState([
-    'Pizza Party', 'Movie Night', 'Ice Cream', 'Game Time', 
-    'Park Visit', 'Art Project', 'Dance Party', 'Cooking Together'
-  ]);
+  const [options, setOptions] = useState([]);
+
   const [isSpinning, setIsSpinning] = useState(false);
   const [rotation, setRotation] = useState(0);
   const [winner, setWinner] = useState('');
@@ -106,14 +11,43 @@ const SpinWheel = () => {
   const [newOption, setNewOption] = useState('');
   const wheelRef = useRef(null);
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const colors = [
     '#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FFEAA7',
     '#DDA0DD', '#98D8C8', '#F7DC6F', '#BB8FCE', '#85C1E9'
   ];
 
+    // Get workshop id from query string, fetch workshop name, then get certificates
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const workshopId = params.get('workshopId');
+    if (!workshopId) return;
+    setIsLoading(true);
+
+    // Step 1: Get workshop name by id
+    fetch(`/api/get-submission/${encodeURIComponent(workshopId)}`)
+      .then(res => res.json())
+      .then(workshopData => {
+        const workshopName = workshopData.submission?.workshop_title;
+        console.log("Workshop Data:", workshopData);
+        if (!workshopName) return;
+        // Step 2: Get certificates by workshop name
+        fetch(`/api/get-certificate/${encodeURIComponent(workshopName)}`)
+          .then(res => res.json())
+          .then(data => {
+            console.log("Certificates Data:", data.submission );
+            const sortedOptions = data.submission.map((item: any) => item.name).sort((a: string, b: string) => a.localeCompare(b));
+            setOptions(sortedOptions);
+            setIsLoading(false);
+          });
+      });
+  }, []);
+
   const addOption = () => {
     if (newOption.trim() && options.length < 12) {
-      setOptions([...options, newOption.trim()]);
+      const updatedOptions = [...options, newOption.trim()].sort((a, b) => a.localeCompare(b));
+      setOptions(updatedOptions);
       setNewOption('');
     }
   };
@@ -221,9 +155,9 @@ const SpinWheel = () => {
         </svg>
         
         {/* Pointer */}
-        <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-2">
+        {/* <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-2">
           <div className="w-0 h-0 border-l-4 border-r-4 border-b-8 border-l-transparent border-r-transparent border-b-red-500"></div>
-        </div>
+        </div> */}
       </div>
     );
   };
@@ -234,14 +168,16 @@ const SpinWheel = () => {
         {/* Header */}
         <div className="text-center mb-8">
                       <h1 className="text-5xl font-bold text-white mb-2 flex items-center justify-center gap-3">
-            ✨ Spin Wheel ✨
+            ✨ Undian Berhadiah ✨
           </h1>
-          <p className="text-white/80 text-lg">Spin to make your decision!</p>
+          <p className="text-white/80 text-lg">Ayo kita Putar Rodanya...!</p>
         </div>
 
         <div className="flex flex-col lg:flex-row gap-8 items-start justify-center">
           {/* Wheel Container */}
-          <div className="bg-white rounded-3xl shadow-2xl p-8 flex flex-col items-center">
+          {isLoading ? 
+            <div className="w-80 h-80 flex items-center justify-center bg-white rounded-3xl shadow-2xl">
+              <p className="text-gray-600">Loading names...</p> </div>: <div className="bg-white rounded-3xl shadow-2xl p-8 flex flex-col items-center">
             <div className="mb-6">
               {renderWheel()}
             </div>
@@ -282,7 +218,7 @@ const SpinWheel = () => {
                 <p className="text-xl">{winner}</p>
               </div>
             )}
-          </div>
+          </div>}
 
           {/* Settings Panel */}
           {showSettings && (
