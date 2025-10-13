@@ -4,8 +4,13 @@ import { useState, useEffect } from "react";
 import styles from "../styles/Home.module.css";
 import { useRouter } from "next/router";
 
+interface User {
+  _id: string
+  name: string;
+  email: string;
+}
 const Home: NextPage = () => {
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<User>(null);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
 
@@ -32,6 +37,7 @@ const Home: NextPage = () => {
   };
 
   const handleLogin = () => {
+    console.log(user);
     window.location.href = "/api/auth/login";
   };
 

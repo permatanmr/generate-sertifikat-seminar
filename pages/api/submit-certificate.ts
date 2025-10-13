@@ -24,7 +24,7 @@ export default async function handler(
   }
 
 
-  let client:any;
+  let client;
 
   try {
     // Connect to MongoDB

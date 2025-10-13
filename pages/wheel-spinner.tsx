@@ -37,7 +37,7 @@ const SpinWheel = () => {
           .then(res => res.json())
           .then(data => {
             console.log("Certificates Data:", data.submission );
-            const sortedOptions = data.submission.map((item: any) => item.name).sort((a: string, b: string) => a.localeCompare(b));
+            const sortedOptions = data.submission.map((item) => item.name).sort((a: string, b: string) => a.localeCompare(b));
             setOptions(sortedOptions);
             setIsLoading(false);
           });

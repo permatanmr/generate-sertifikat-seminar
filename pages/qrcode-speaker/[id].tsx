@@ -17,8 +17,14 @@ interface Submission {
   submitted_at: string;
   ip_address?: string;
 }
+
+interface User {
+  _id: string
+  name: string;
+  email: string;
+}
 const Workshop: NextPage = () => {
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<User>(null);
   const [loading, setLoading] = useState(true);
   const [workshop, setSubmission] = useState<Submission | null>(null);
   const router = useRouter();
@@ -146,7 +152,7 @@ const CertificateForm = ({
   workshop,
   userEmail,
 }: {
-  workshop: any;
+  workshop: Submission;
   userEmail: string;
 }) => {
   const [personName, setPersonName] = useState("");

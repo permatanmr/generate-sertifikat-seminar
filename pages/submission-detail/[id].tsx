@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import QRCode from "qrcode";
 import styles from "../../styles/Home.module.css";
+import Link from "next/link";
 
 interface Submission {
   _id: string;
@@ -191,7 +192,7 @@ const SubmissionDetail: NextPage = () => {
         </div>
 
         <div style={{ marginTop: "30px" }}>
-          <a
+          <Link
             href="/submissions-list"
             style={{
               color: "#0070f3",
@@ -204,8 +205,8 @@ const SubmissionDetail: NextPage = () => {
             }}
           >
             ← Back to Submissions List
-          </a>
-          <a
+          </Link>
+          <Link
             href="/"
             style={{
               color: "#0070f3",
@@ -217,7 +218,7 @@ const SubmissionDetail: NextPage = () => {
             }}
           >
             Home
-          </a>
+          </Link>
         </div>
       </main>
     </div>

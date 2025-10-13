@@ -3,6 +3,7 @@ import Head from "next/head";
 import { useState } from "react";
 import { useRouter } from "next/router";
 import styles from "../styles/Home.module.css";
+import Link from "next/link";
 
 const Submission: NextPage = () => {
   const router = useRouter();
@@ -193,9 +194,9 @@ const Submission: NextPage = () => {
         </form>
 
         <div style={{ marginTop: "20px" }}>
-          <a href='/' style={{ color: "#0070f3", textDecoration: "none" }}>
+          <Link href='/' style={{ color: "#0070f3", textDecoration: "none" }}>
             ← Back to Certificate Generator
-          </a>
+          </Link>
         </div>
       </main>
     </div>

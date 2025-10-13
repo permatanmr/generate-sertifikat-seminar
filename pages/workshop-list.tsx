@@ -3,6 +3,7 @@ import Head from "next/head";
 import { useState, useEffect } from "react";
 import QRCode from "qrcode";
 import styles from "../styles/Home.module.css";
+import Link from "next/link";
 
 interface Submission {
   _id: string;
@@ -313,11 +314,11 @@ const SubmissionsList: NextPage = () => {
         )}
 
         <div style={{ marginTop: "20px" }}>
-          <a
+          <Link
             href='/workshop-create'
             style={{ color: "#0070f3", textDecoration: "none" }}>
             Add New Workshop
-          </a>
+          </Link>
         </div>
 
         {/* QR Code Preview Modal */}
